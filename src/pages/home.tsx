@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { getFirebase } from "../firebase";
 import { client } from "../index";
 import { gql } from "apollo-boost";
 
@@ -38,7 +37,6 @@ const Home = () => {
                 } = result;
                 console.log(posts);
 
-                //const newestFirst = posts.reverse();
                 setBlogPosts(posts);
                 setLoading(false);
             });

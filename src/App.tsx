@@ -17,6 +17,7 @@ function App() {
                 <main>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route path="/:slug" component={Post} />
                     </Switch>
                 </main>
             </div>

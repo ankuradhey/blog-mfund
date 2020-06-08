@@ -25,20 +25,31 @@ const typeDefs = gql`
         title: String
     }
     type Query {
-        posts: [Blog]
+        posts(slug: String): [Blog]
     }
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers = {
     Query: {
-        posts: () =>
-            admin
-                .database()
-                .ref("posts")
-                .once("value")
-                .then((snap) => snap.val())
-                .then((val) => Object.keys(val).map((key) => val[key])),
+        posts: (_: any, args: any) => {
+            let db = admin.database().ref("posts");
+            if (args.slug) {
+                return db
+                    .once("value")
+                    .then((snap) => snap.val())
+                    .then((val) =>
+                        Object.keys(val)
+                            .filter((key) => args.slug === key)
+                            .map((key) => val[key])
+                    );
+            } else {
+                return db
+                    .once("value")
+                    .then((snap) => snap.val())
+                    .then((val) => Object.keys(val).map((key) => val[key]));
+            }
+        },
     },
 };
 
