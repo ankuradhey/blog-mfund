@@ -1,21 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router-dom";
+import { gql } from "apollo-boost";
+import { client } from "../index";
+import { blogPostType } from "./home";
 
-const Post = ({ match }: RouteComponentProps<{ slug: string }>) => {
+export const Post = ({ match }: RouteComponentProps<{ slug: string }>) => {
     const slug = match.params.slug;
-    const postSlugs = ["my-first-blog-post", "my-second-blog-post"];
+    const [loading, setLoading] = useState(true);
+    const [postData, setPostData] = useState<blogPostType | null>(null);
 
-    const postDoesNotExist = postSlugs.indexOf(slug) === -1;
-    if (postDoesNotExist) {
-        return <Redirect to="/404" />;
+    if (loading && !postData) {
+        client
+            .query({
+                query: gql`
+                    {
+                        posts(slug: "${slug}") {
+                            content
+                            coverImage
+                            slug
+                            title
+                        }
+                    }
+                `,
+            })
+            .then((result) => {
+                const {
+                    data: {
+                        posts: [singlePost],
+                    },
+                } = result;
+                console.log(singlePost);
+                setLoading(false);
+                if (singlePost) {
+                    setPostData(singlePost);
+                }
+            });
+    }
+
+    if (loading) {
+        return <h1>Loading...</h1>;
     }
 
     return (
-        <>
-            <h1>This is a template for blog posts.</h1>
-            <p>We'll get to this once we've hooked up Firebase!</p>
-        </>
+        <section className="card">
+            {postData && (
+                <>
+                    <img src={postData.coverImage} alt={postData.coverImageAlt} />
+                    <div className="card-content">
+                        <h1>
+                            {postData.title} &mdash;{" "}
+                            <span style={{ color: "#5e5e5e" }}>{postData.datePretty}</span>
+                        </h1>
+                        <p
+                            dangerouslySetInnerHTML={{
+                                __html: `${postData.content}`,
+                            }}
+                        ></p>
+                    </div>
+                </>
+            )}
+        </section>
     );
 };
-
-export default Post;

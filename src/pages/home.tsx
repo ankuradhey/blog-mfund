@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { client } from "../index";
 import { gql } from "apollo-boost";
 
-interface blogPostType {
+export interface blogPostType {
     title: string;
     content: string;
     coverImage: string;
@@ -13,7 +13,7 @@ interface blogPostType {
     datePretty: Date;
 }
 
-const Home = () => {
+export const Home = () => {
     const [loading, setLoading] = useState(true);
     const [blogPosts, setBlogPosts] = useState<blogPostType[]>([]);
 
@@ -69,5 +69,3 @@ const Home = () => {
         </>
     );
 };
-
-export default Home;
