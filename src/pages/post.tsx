@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { client } from "../index";
 import { blogPostType } from "./home";

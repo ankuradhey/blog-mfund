@@ -1,4 +1,5 @@
 import React from "react";
+import { Nav } from "react-bootstrap";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { Home, Post } from "./pages";
@@ -8,11 +9,14 @@ function App() {
         <Router>
             <div className="App">
                 <header className="App-header">
-                    <nav>
-                        <Link to="/">
-                            <h2>Blog</h2>
-                        </Link>
-                    </nav>
+                    <Nav activeKey="/">
+                        <Nav.Item>
+                            <Nav.Link href="/">Home</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link href="/create">Create New</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
                 </header>
                 <main>
                     <Switch>

@@ -34,6 +34,7 @@ const resolvers = {
     Query: {
         posts: (_: any, args: any) => {
             let db = admin.database().ref("posts");
+            console.log(args.slug);
             if (args.slug) {
                 return db
                     .once("value")
