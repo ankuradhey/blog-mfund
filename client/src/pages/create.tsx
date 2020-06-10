@@ -1,29 +1,26 @@
-import React, { useState } from "react";
-
+import React, { useState, FC } from "react";
+import { gql } from "apollo-boost";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { ADD_POST } from "../graphql/Queries";
 import { client } from "../index";
-import { RouteComponentProps } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { BlogForm } from "../components/organisms/BlogForm";
 
-const labelStyles = {
-    display: "block",
-    marginBottom: 4,
-};
+interface FormValues {
+    title: string;
+    content: string;
+    coverImage: string;
+    coverImageAlt?: string;
+    slug: string;
+}
 
-const inputStyles = {
-    width: "100%",
-    height: "2rem",
-    lineHeight: "2rem",
-    verticalAlign: "middle",
-    fontSize: "1rem",
-    marginBottom: "1.5rem",
-    padding: "0 0.25rem",
-};
+const Create = () => {
+    const goToHome = () => {
+        history.push("/");
+    };
 
-const Create = ({ history }: RouteComponentProps) => {
-    const [title, setTitle] = useState("");
-    const [slug, setSlug] = useState("");
-    const [coverImage, setCoverImage] = useState("");
-    const [coverImageAlt, setCoverImageAlt] = useState("");
-    const [content, setContent] = useState("");
+    const history = useHistory();
+    const [addBlog, { loading, error }] = useMutation(ADD_POST, { onCompleted: goToHome });
 
     const generateDate = () => {
         const now = new Date();
@@ -43,106 +40,33 @@ const Create = ({ history }: RouteComponentProps) => {
 
         return {
             formatted: `${year}-${monthStr}-${dayStr}`,
-            pretty: now.toLocaleDateString("en-US", options),
         };
     };
 
-    const createPost = () => {
+    const createPost = (values: FormValues) => {
+        const { title, slug, coverImage, content } = values;
+        const coverImageAlt = "";
         const date = generateDate();
         const newPost = {
             title,
             dateFormatted: date.formatted,
-            datePretty: date.pretty,
             slug,
             coverImage,
             coverImageAlt,
             content,
         };
+
+        addBlog({ variables: { details: newPost } });
     };
+
+    if (loading) {
+        return <h1>Loading...</h1>;
+    }
 
     return (
         <>
             <h1>Create a new post</h1>
-            <section style={{ margin: "2rem 0" }}>
-                <label style={labelStyles} htmlFor="title-field">
-                    Title
-                </label>
-                <input
-                    style={inputStyles}
-                    id="title-field"
-                    type="text"
-                    value={title}
-                    onChange={({ target: { value } }) => {
-                        setTitle(value);
-                    }}
-                />
-
-                <label style={labelStyles} htmlFor="slug-field">
-                    Slug
-                </label>
-                <input
-                    style={inputStyles}
-                    id="slug-field"
-                    type="text"
-                    value={slug}
-                    onChange={({ target: { value } }) => {
-                        setSlug(value);
-                    }}
-                />
-
-                <label style={labelStyles} htmlFor="cover-image-field">
-                    Cover image
-                </label>
-                <input
-                    style={inputStyles}
-                    id="cover-image-field"
-                    type="text"
-                    value={coverImage}
-                    onChange={({ target: { value } }) => {
-                        setCoverImage(value);
-                    }}
-                />
-
-                <label style={labelStyles} htmlFor="cover-image-alt-field">
-                    Cover image alt
-                </label>
-                <input
-                    style={inputStyles}
-                    id="cover-image-alt-field"
-                    type="text"
-                    value={coverImageAlt}
-                    onChange={({ target: { value } }) => {
-                        setCoverImageAlt(value);
-                    }}
-                />
-
-                <label style={labelStyles} htmlFor="content-field">
-                    Content
-                </label>
-                <textarea
-                    style={{ ...inputStyles, height: 200, verticalAlign: "top" }}
-                    id="content"
-                    value={content}
-                    onChange={({ target: { value } }) => {
-                        setContent(value);
-                    }}
-                />
-                <div style={{ textAlign: "right" }}>
-                    <button
-                        style={{
-                            border: "none",
-                            color: "#fff",
-                            backgroundColor: "#039be5",
-                            borderRadius: "4px",
-                            padding: "8px 12px",
-                            fontSize: "0.9rem",
-                        }}
-                        onClick={createPost}
-                    >
-                        Create
-                    </button>
-                </div>
-            </section>
+            <BlogForm message={error ? "An error occurred" : ""} handleFormSubmit={createPost} />
         </>
     );
 };
