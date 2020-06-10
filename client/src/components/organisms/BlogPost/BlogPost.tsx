@@ -31,7 +31,7 @@ const BlogPost: FC<BlogPostProps> = ({
                         __html: `${content}`,
                     }}
                 ></p>
-                {full && <Link to={`/${slug}`}>Continue reading...</Link>}
+                {!full && <Link to={`/${slug}`}>Continue reading...</Link>}
             </div>
         </section>
     );

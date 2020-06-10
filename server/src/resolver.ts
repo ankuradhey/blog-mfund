@@ -32,5 +32,29 @@ const resolvers = {
         },
     },
     Mutation: {
-        addPost: async (
-         
+        addPost: async (_: void, { details }: any) => {
+            const { title, content, coverImage, coverImageAlt, slug, dateFormatted } = details;
+
+            try {
+                const result = await admin.database().ref().child("posts").child(slug).set({
+                    title,
+                    content,
+                    coverImage,
+                    coverImageAlt,
+                    slug,
+                    dateFormatted,
+                });
+
+                return {
+                    success: result,
+                    message: "Record successfully added",
+                    ...details,
+                };
+            } catch (e) {
+                throw new ApolloError(e);
+            }
+        },
+    },
+};
+
+export default resolvers;
