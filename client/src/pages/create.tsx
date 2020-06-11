@@ -5,6 +5,7 @@ import { ADD_POST } from "../graphql/Queries";
 import { client } from "../index";
 import { useHistory } from "react-router-dom";
 import { BlogForm } from "../components/organisms/BlogForm";
+import { Loader } from "../components/atoms/Loader";
 
 interface FormValues {
     title: string;
@@ -60,7 +61,7 @@ const Create = () => {
     };
 
     if (loading) {
-        return <h1>Loading...</h1>;
+        return <Loader />;
     }
 
     return (

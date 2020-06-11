@@ -1,58 +1,27 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { client } from "../index";
-import { gql } from "apollo-boost";
+import React from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_POSTS } from "../graphql/Queries";
 import { BlogPost } from "../components/organisms/BlogPost";
-
-export interface blogPostType {
-    title: string;
-    content: string;
-    coverImage: string;
-    coverImageAlt?: string;
-    slug: string;
-    dateFormatted: Date;
-    datePretty: Date;
-}
+import { BlogPostResponse } from "../types";
+import { Loader } from "../components/atoms/Loader";
+import { Notification } from "../components/atoms/Notification";
 
 export const Home = () => {
-    const [loading, setLoading] = useState(true);
-    const [blogPosts, setBlogPosts] = useState<blogPostType[]>([]);
+    const { data, loading, error } = useQuery<BlogPostResponse>(GET_POSTS);
 
-    if (loading && !blogPosts.length) {
-        client
-            .query({
-                query: gql`
-                    {
-                        posts {
-                            content
-                            coverImage
-                            slug
-                            title
-                        }
-                    }
-                `,
-            })
-            .then((result) => {
-                const {
-                    data: { posts },
-                } = result;
-                console.log(posts);
+    if (loading) return <Loader />;
 
-                setBlogPosts(posts);
-                setLoading(false);
-            });
-    }
-    if (loading) {
-        return <h1>Loading...</h1>;
-    }
+    if (error) return <Notification variant="danger" message="Some error occurred" />;
 
     return (
         <>
             <h1>Blog posts</h1>
             <p>Welcome</p>
-            {blogPosts.map((blogPost) => (
-                <BlogPost key={blogPost.slug} {...blogPost}></BlogPost>
-            ))}
+            {data &&
+                data.posts &&
+                data.posts.map((blogPost) => (
+                    <BlogPost key={blogPost.slug} {...blogPost}></BlogPost>
+                ))}
         </>
     );
 };

@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router": "^5.1.7",
     "@types/styled-components": "^5.1.0",
     "@types/yup": "^0.29.2"
   }

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { BlogPostType } from "./index";
+import { Button, Col } from "react-bootstrap";
+import { BlogPostType } from "../../../types/BlogPostType";
 
 interface BlogPostProps extends BlogPostType {
     full?: boolean;
@@ -11,7 +12,7 @@ const BlogPost: FC<BlogPostProps> = ({
     coverImage,
     coverImageAlt,
     title,
-    datePretty,
+    dateFormatted,
     content,
     full = false,
 }) => {
@@ -23,15 +24,19 @@ const BlogPost: FC<BlogPostProps> = ({
         <section key={slug} className="card">
             <img src={coverImage} alt={coverImageAlt} />
             <div className="card-content">
-                <h2>
-                    {title} &mdash; <span style={{ color: "#5e5e5e" }}>{datePretty}</span>
-                </h2>
+                <h2>{title}</h2>
                 <p
                     dangerouslySetInnerHTML={{
                         __html: `${content}`,
                     }}
                 ></p>
-                {!full && <Link to={`/${slug}`}>Continue reading...</Link>}
+                <p>{!full && <Link to={`/${slug}`}>Continue reading...</Link>}</p>
+                <Button variant="secondary" size="sm" as={Col} md={2} className="pull-left mr-5">
+                    Edit
+                </Button>
+                <Button variant="danger" size="sm" as={Col} md={2}>
+                    Delete
+                </Button>
             </div>
         </section>
     );

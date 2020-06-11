@@ -11,8 +11,8 @@ function App() {
                 <main>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/:slug" component={Post} />
                         <Route exact path="/create" component={Create} />
-                        <Route path="/:slug" component={Post} />
                     </Switch>
                 </main>
             </BaseLayout>

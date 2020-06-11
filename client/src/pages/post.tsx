@@ -1,44 +1,23 @@
-import React, { useState } from "react";
+import React, { FC } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { gql } from "apollo-boost";
-import { client } from "../index";
-import { blogPostType } from "./home";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_SINGLE_POST } from "../graphql/Queries";
 import { BlogPost } from "../components/organisms/BlogPost";
+import { Loader } from "../components/atoms/Loader";
+import { Notification } from "../components/atoms/Notification";
 
-export const Post = ({ match }: RouteComponentProps<{ slug: string }>) => {
+export const Post = (props: RouteComponentProps<any>) => {
+    const { match } = props;
     const slug = match.params.slug;
-    const [loading, setLoading] = useState(true);
-    const [postData, setPostData] = useState<blogPostType | null>(null);
+    console.log(slug);
+    const { data, loading, error } = useQuery(GET_SINGLE_POST, {
+        variables: { slug },
+    });
 
-    if (loading && !postData) {
-        client
-            .query({
-                query: gql`
-                    {
-                        post(slug: "${slug}") {
-                            content
-                            coverImage
-                            slug
-                            title
-                        }
-                    }
-                `,
-            })
-            .then((result) => {
-                const {
-                    data: { post: singlePost },
-                } = result;
-                console.log(singlePost);
-                setLoading(false);
-                if (singlePost) {
-                    setPostData(singlePost);
-                }
-            });
-    }
+    if (loading) return <Loader />;
 
-    if (loading) {
-        return <h1>Loading...</h1>;
-    }
+    if (error) return <Notification variant="danger" message="Some error occurred" />;
 
-    return postData && <BlogPost {...postData} full={true} />;
+    console.log(data);
+    return data && data.post && <BlogPost {...data.post} full={true} />;
 };
