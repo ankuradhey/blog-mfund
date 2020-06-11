@@ -1,19 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloProvider } from "@apollo/react-hooks";
+import App from "./App";
 import "./index.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import ApolloClient from "apollo-boost";
 
 export const client = new ApolloClient({
     uri: "http://localhost:4000",
+    cache: new InMemoryCache(),
 });
 
 ReactDOM.render(
-    <React.StrictMode>
+    <ApolloProvider client={client}>
         <App />
-    </React.StrictMode>,
+    </ApolloProvider>,
     document.getElementById("root")
 );
 
