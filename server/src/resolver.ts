@@ -54,6 +54,18 @@ const resolvers = {
                 throw new ApolloError(e);
             }
         },
+        deletePost: async (_: void, { slug }: any) => {
+            try {
+                const result = await admin.database().ref().child("posts").child(slug).remove();
+
+                return {
+                    result: "Record successfully deleted",
+                    slug,
+                };
+            } catch (e) {
+                throw new ApolloError(e);
+            }
+        },
     },
 };
 

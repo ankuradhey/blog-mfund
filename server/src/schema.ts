@@ -6,8 +6,14 @@ const typeDefs = gql`
         post(slug: ID!): Post
     }
 
+    type Result {
+        result: String
+        slug: ID!
+    }
+
     type Mutation {
         addPost(details: AddPostInput!): Post!
+        deletePost(slug: ID!): Result!
     }
 
     input AddPostInput {

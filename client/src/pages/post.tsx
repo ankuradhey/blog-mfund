@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_SINGLE_POST } from "../graphql/Queries";
 import { BlogPost } from "../components/organisms/BlogPost";
 import { Loader } from "../components/atoms/Loader";
-import { Notification } from "../components/atoms/Notification";
+import { AlertMessage } from "../components/atoms/AlertMessage";
 
 export const Post = (props: RouteComponentProps<any>) => {
     const { match } = props;
@@ -16,7 +16,7 @@ export const Post = (props: RouteComponentProps<any>) => {
 
     if (loading) return <Loader />;
 
-    if (error) return <Notification variant="danger" message="Some error occurred" />;
+    if (error) return <AlertMessage variant="danger" message="Some error occurred" />;
 
     console.log(data);
     return data && data.post && <BlogPost {...data.post} full={true} />;

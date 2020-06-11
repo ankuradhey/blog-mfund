@@ -1,17 +1,17 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { GET_POSTS } from "../graphql/Queries";
+import { GET_POSTS, DELETE_POST } from "../graphql/Queries";
 import { BlogPost } from "../components/organisms/BlogPost";
-import { BlogPostResponse } from "../types";
+import { BlogPostResponse, BlogPostType } from "../types";
 import { Loader } from "../components/atoms/Loader";
-import { Notification } from "../components/atoms/Notification";
+import { AlertMessage } from "../components/atoms/AlertMessage";
 
 export const Home = () => {
     const { data, loading, error } = useQuery<BlogPostResponse>(GET_POSTS);
 
     if (loading) return <Loader />;
 
-    if (error) return <Notification variant="danger" message="Some error occurred" />;
+    if (error) return <AlertMessage variant="danger" message="Some error occurred" />;
 
     return (
         <>
