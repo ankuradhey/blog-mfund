@@ -7,9 +7,12 @@ import { Loader } from "../components/atoms/Loader";
 import { AlertMessage } from "../components/atoms/AlertMessage";
 
 export const Post = (props: RouteComponentProps<any>) => {
-    const { match } = props;
-    const slug = match.params.slug;
-    console.log(slug);
+    const {
+        match: {
+            params: { slug },
+        },
+    } = props;
+
     const { data, loading, error } = useQuery(GET_SINGLE_POST, {
         variables: { slug },
     });

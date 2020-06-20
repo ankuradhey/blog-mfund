@@ -11,17 +11,13 @@ const SignupSchema = Yup.object().shape({
     slug: Yup.string().required("Required"),
 });
 
-const BlogForm: FC<{ message: string; handleFormSubmit: any }> = ({
+const BlogForm: FC<{ message: string; handleFormSubmit: any; initialValues: FormValues }> = ({
     message,
     handleFormSubmit,
+    initialValues,
 }) => {
     const formik = useFormik({
-        initialValues: {
-            title: "",
-            content: "",
-            slug: "",
-            coverImage: "",
-        },
+        initialValues,
         onSubmit: handleFormSubmit,
         validationSchema: SignupSchema,
     });

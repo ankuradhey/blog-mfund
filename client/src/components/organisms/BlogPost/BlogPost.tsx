@@ -82,7 +82,16 @@ const BlogPost: FC<BlogPostProps> = ({
                     }}
                 ></p>
                 <p>{!full && <Link to={`/${slug}`}>Continue reading...</Link>}</p>
-                <Button variant="secondary" size="sm" as={Col} md={2} className="pull-left mr-5">
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    as={Col}
+                    md={2}
+                    className="pull-left mr-5"
+                    onClick={() => {
+                        history.push(`/edit/${slug}`);
+                    }}
+                >
                     Edit
                 </Button>
                 <Button

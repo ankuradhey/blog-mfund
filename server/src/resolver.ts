@@ -54,6 +54,38 @@ const resolvers = {
                 throw new ApolloError(e);
             }
         },
+        updatePost: async (_: void, { details, slug }: any) => {
+            const { title, content, coverImage, coverImageAlt, dateFormatted } = details;
+            try {
+                const removeResult = await admin
+                    .database()
+                    .ref()
+                    .child("posts")
+                    .child(slug)
+                    .remove();
+                const updateResult = await admin
+                    .database()
+                    .ref()
+                    .child("posts")
+                    .child(details.slug)
+                    .set({
+                        title,
+                        content,
+                        coverImage,
+                        coverImageAlt,
+                        slug,
+                        dateFormatted,
+                    });
+
+                return {
+                    success: updateResult,
+                    message: "Record successfully added",
+                    ...details,
+                };
+            } catch (e) {
+                throw new ApolloError(e);
+            }
+        },
         deletePost: async (_: void, { slug }: any) => {
             try {
                 const result = await admin.database().ref().child("posts").child(slug).remove();

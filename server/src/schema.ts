@@ -14,6 +14,7 @@ const typeDefs = gql`
     type Mutation {
         addPost(details: AddPostInput!): Post!
         deletePost(slug: ID!): Result!
+        updatePost(details: AddPostInput!, slug: ID!): Post!
     }
 
     input AddPostInput {
