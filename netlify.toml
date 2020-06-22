@@ -1,6 +1,8 @@
 [build]
   command = "gatsby build"
+  publish = "public/"
 
 [context.production]
   command = "echo 'production'"
+  publish = "public/"
   environment = {CONTENTFUL_SPACE_ID = "8ioz9f3k4doo", CONTENTFUL_ACCESS_TOKEN = "WVVEDWML5_j2LMMHHgnf6Wt-e96XWxSyYRvfsLK9YeA"}
