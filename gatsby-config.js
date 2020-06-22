@@ -20,6 +20,7 @@ try {
             ? contentfulConfig.development
             : contentfulConfig.production
 
+
     if (!spaceId || !accessToken) {
         throw new Error(`CONTENTFUL_SPACE_ID and CONTENTFUL_ACCESS_TOKEN are required to build. Check the README.`); // eslint-disable-line
     }

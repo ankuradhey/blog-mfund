@@ -41,6 +41,7 @@
     "@contentful/rich-text-react-renderer": "^13.4.0",
     "@contentful/rich-text-types": "^14.1.0",
     "@tryghost/helpers": "1.1.27",
+    "@tryghost/helpers-gatsby": "^1.0.31",
     "cheerio": "1.0.0-rc.3",
     "gatsby": "2.23.6",
     "gatsby-awesome-pagination": "0.3.6",
