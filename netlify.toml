@@ -2,5 +2,7 @@
   command = "gatsby build"
   publish = "public/"
 
-[template]
-  incoming-hooks = ["Ghost"]
+[context.production]
+  publish = "public/"
+  command = "echo 'production'"
+  environment = {CONTENTFUL_SPACE_ID = "8ioz9f3k4doo", CONTENTFUL_ACCESS_TOKEN = "WVVEDWML5_j2LMMHHgnf6Wt-e96XWxSyYRvfsLK9YeA"}
