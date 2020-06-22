@@ -1,6 +1,5 @@
 [build]
   command = "gatsby build"
-  publish = "/opt/build/repo/public/"
 
 [context.production]
   command = "echo 'production'"
