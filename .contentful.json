@@ -1,10 +1,10 @@
 {
     "development": {
         "spaceId": "8ioz9f3k4doo",
-        "accessToken": "WVVEDWML5_j2LMMHHgnf6Wt-e96XWxSyYRvfsLK9YeA"
+        "accessToken": "removed"
     },
     "production": {
         "spaceId": "",
-        "accessToken": "WVVEDWML5_j2LMMHHgnf6Wt-e96XWxSyYRvfsLK9YeA"
+        "accessToken": "removed"
     }
 }
