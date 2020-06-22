@@ -74,7 +74,7 @@ exports.createPages = async ({ graphql, actions }) => {
     const postTemplate = path.resolve(`./src/templates/post.js`)
 
     // Create tag pages
-    tags.forEach(({ node }) => {
+    /*tags.forEach(({ node }) => {
         const totalPosts = node.postCount !== null ? node.postCount : 0
         const numberOfPages = Math.ceil(totalPosts / postsPerPage)
 
@@ -158,7 +158,7 @@ exports.createPages = async ({ graphql, actions }) => {
             })
         })
     })
-
+*/
     // Create pages
     pages.forEach(({ node }) => {
         // This part here defines, that our pages will use
